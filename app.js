@@ -128,7 +128,10 @@ function commandLine(){
             const intern = new Intern(response.iName, response.iId, response.iEmail, response.iSchool);
             employees.push(intern);
             addEmployee();
-        })
+        });
+    }
+    function createHTML(){
+        fs.writeFileSync(outputPath, render(employees), "utf-8");
     }
     manager();
 }
