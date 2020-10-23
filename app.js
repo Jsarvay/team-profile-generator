@@ -97,7 +97,37 @@ function commandLine(){
             }
         ]).then(response => {
             const engineer = new Engineer(response.eName, response.eId, response.eEmail, response.eGit);
-            console.log(engineer);
+            employees.push(engineer);
+            addEmployee();
+        });
+    }
+    //function to add interns
+    function internAdd(){
+        inquirer.prompt([
+            {
+                type: "input",
+                name: "iName",
+                message: "What is the Intern's name?"
+            },
+            {
+                type: "input",
+                name: "iId",
+                message: "What is the Intern's ID?"
+            },
+            {
+                type: "input",
+                name: "iEmail",
+                message: "What is the Intern's e-mail?"
+            },
+            {
+                type: "input",
+                name: "iSchool",
+                message: "What is the Intern's School?"
+            }
+        ]).then(response => {
+            const intern = new Intern(response.iName, response.iId, response.iEmail, response.iSchool);
+            employees.push(intern);
+            addEmployee();
         })
     }
     manager();
