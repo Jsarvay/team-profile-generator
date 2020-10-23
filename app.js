@@ -9,6 +9,7 @@ const OUTPUT_DIR = path.resolve(__dirname, "output");
 const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
+const { ENGINE_METHOD_RAND, EADDRINUSE } = require("constants");
 
 const employees = [];
 
@@ -16,6 +17,7 @@ const employees = [];
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
 function commandLine(){
+    //inquirer for manager
     function manager(){
         inquirer.prompt([
             {
@@ -42,15 +44,61 @@ function commandLine(){
             const manager = new Manager(input.mName, input.mId, input.mEmail, input.mOffice);
             employees.push(manager);
             addEmployee();
-        })
+        });
     }
+    //function to run after manager inquiry, check for additional employees or end inquirer to create html
     function addEmployee(){
         inquirer.prompt([
             {
                 type: "list",
-                
+                name: "employeeType",
+                message: "Add an additional team member?",
+                choices: [
+                    "Engineer",
+                    "Intern",
+                    "No additional team members"
+                ]
             }
-        ])
+        ]).then(response => {
+            switch(response.employeeType){
+                case "Engineer":
+                    engineerAdd();
+                    break;
+                case "Intern":
+                    internAdd();
+                    break;
+                default:
+                    createHTML();
+            }
+        });
+    }
+    //inquirer for engineers
+    function engineerAdd(){
+        inquirer.prompt([
+            {
+                type: "input",
+                name: "eName",
+                message: "What is the name of the Engineer?"
+            },
+            {
+                type: "input",
+                name: "eId",
+                message: "What is the Engineer's ID?"
+            },
+            {
+                type: "input",
+                name: "eEmail",
+                message: "What is the Engineer's e-mail?"
+            },
+            {
+                type: "input",
+                name: "eGit",
+                message: "What is the Engineer's Github?"
+            }
+        ]).then(response => {
+            const engineer = new Engineer(response.eName, response.eId, response.eEmail, response.eGit);
+            console.log(engineer);
+        })
     }
     manager();
 }
