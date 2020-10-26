@@ -134,5 +134,5 @@ function commandLine(){
 
     manager();
 }
-
+//runs overall function structure on startup
 commandLine();
