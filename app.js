@@ -44,32 +44,6 @@ function commandLine(){
             addEmployee();
         });
     }
-    //function to run after manager inquiry, check for additional employees or end inquirer to create html
-    function addEmployee(){
-        inquirer.prompt([
-            {
-                type: "list",
-                name: "employeeType",
-                message: "Add an additional team member?",
-                choices: [
-                    "Engineer",
-                    "Intern",
-                    "No additional team members"
-                ]
-            }
-        ]).then(response => {
-            switch(response.employeeType){
-                case "Engineer":
-                    engineerAdd();
-                    break;
-                case "Intern":
-                    internAdd();
-                    break;
-                default:
-                    createHTML();
-            }
-        });
-    }
     //inquirer for engineers
     function engineerAdd(){
         inquirer.prompt([
@@ -131,6 +105,33 @@ function commandLine(){
     function createHTML(){
         fs.writeFileSync(outputPath, render(employees), "utf-8");
     };
+    //function to run after manager inquiry, check for additional employees or end inquirer to create html
+    function addEmployee(){
+        inquirer.prompt([
+            {
+                type: "list",
+                name: "employeeType",
+                message: "Add an additional team member?",
+                choices: [
+                    "Engineer",
+                    "Intern",
+                    "No additional team members"
+                ]
+            }
+        ]).then(response => {
+            switch(response.employeeType){
+                case "Engineer":
+                    engineerAdd();
+                    break;
+                case "Intern":
+                    internAdd();
+                    break;
+                default:
+                    createHTML();
+                    console.log("Creating Team Page....")
+            }
+        });
+    }
 
     manager();
 }
